@@ -2,7 +2,7 @@
   "title": "GURPS Quick Contest",
   "description": "Useful widget to make Quick Contest rolls.",
   "id": "gurps-quick-contest",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "authors": [
     {
       "name": "Giggioz",
@@ -17,8 +17,7 @@
       "path": "languages/en.json"
     }
   ],
-  "scripts": [],
-  "esmodules": ["scripts/main.js"],
+  "scripts": ["index.js"],
   "styles": ["styles/module.css"],
   "packs": [],
   "url": "https://github.com/giggioz/gurps-quick-contest",
