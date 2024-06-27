@@ -1,7 +1,16 @@
 {
-    "module-id": {
-        "settings": {},
-        "app": {},
-        "flags": {}
+  "gurps-quick-contest": {
+    "settings": {
+      "title": "Settings",
+      "description": "Configure the settings for the GURPS Quick Contest module."
+    },
+    "app": {
+      "title": "Quick Contest",
+      "description": "An application to manage quick contests in GURPS."
+    },
+    "flags": {
+      "active": "Active",
+      "inactive": "Inactive"
     }
+  }
 }
