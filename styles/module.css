@@ -7,3 +7,10 @@
 #compare-button {
     margin-top: 15px;
 }
+
+#versus {
+    font-size: 24px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}

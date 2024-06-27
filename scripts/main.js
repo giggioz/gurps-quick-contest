@@ -3,9 +3,6 @@ import { registerSettings } from './settings.js';
 
 export const MODULE_ID = 'gurps-quick-contest';
 
-// Modifiers dont work
-// clear data is app hides
-
 class QuickContestApp extends Application {
   constructor(options = {}) {
     super(options);
@@ -48,7 +45,7 @@ class QuickContestApp extends Application {
 
       // console.log('ACTOR', actor, otf)
 
-      updateActorContainer(event.currentTarget.id, actor.name, otf, '');
+      updateActorContainer(event.currentTarget.id, actor.name, otf, '', actor.img);
 
       // is this using handlebars? Test it
       // this.render();
@@ -74,11 +71,8 @@ class QuickContestApp extends Application {
       return;
     }
 
-    // console.log('ACTORS', this.actors[0], this.actors[1]);
-
     const action0 = GURPS.parselink(this.actors[0].otf);
     await GURPS.performAction(action0.action, this.actors[0].actor);
-
     const res0 = GURPS.lastTargetedRolls[this.actors[0].actor.id];
     const margin0 = res0.margin;
 
@@ -90,21 +84,22 @@ class QuickContestApp extends Application {
     let result;
 
     if (margin0 > margin1) {
-      // result = `${this.actors[0].actor.name} wins with a higher margin of success!`;
+      result = `${this.actors[0].actor.name} wins with a margin of ${margin0 - margin1}.`;
 
       ChatMessage.create({
-        content: `${this.actors[0].actor.name} wins with a margin of ${margin0 - margin1}.`,
+        content: result,
         speaker: { alias: 'GURPS' },
       });
     } else if (margin1 > margin0) {
-      // result = `${this.actors[1].actor.name} wins with a higher margin of success!`;
+      result = `${this.actors[1].actor.name} wins with a margin of ${margin1 - margin0}.`;
       ChatMessage.create({
-        content: `${this.actors[1].actor.name} wins with a margin of ${margin1 - margin0}.`,
+        content: result,
         speaker: { alias: 'GURPS' },
       });
     } else {
+      result = `it's a tie!`;
       ChatMessage.create({
-        content: `it's a tie!`,
+        content: result,
         speaker: { alias: 'GURPS' },
       });
     }
@@ -151,17 +146,22 @@ const addToggleButton = () => {
   $('#players').before($toggleButton);
 };
 
-function updateActorContainer(id, name, attrName, attrValue) {
+function updateActorContainer(id, name, attrName, attrValue, imgSrc) {
+  const versusContainer = document.getElementById('versus');
   const actorContainer = document.getElementById(id);
 
   if (actorContainer) {
     const actorName = actorContainer.querySelector('.actor-name');
     const attributeName = actorContainer.querySelector('.attribute-name');
     const attributeValue = actorContainer.querySelector('.attribute-value');
+    const actorImage = versusContainer.querySelector(id === 'actor1' ? '.actor1-image' : '.actor2-image');
 
     if (actorName) actorName.textContent = name;
     if (attributeName) attributeName.textContent = attrName;
     if (attributeValue) attributeValue.textContent = attrValue;
+    if (actorImage) {
+      actorImage.innerHTML = `<img src="${imgSrc}" alt="${name}" style="width: 70px; height: 70px; border-radius: 50%;">`;
+    }
   } else {
     console.log(`Element with ID ${id} not found.`);
   }

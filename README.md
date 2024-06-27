@@ -1,4 +1,30 @@
-# Module Name
-desc
+## TODO
+Modifiers dont work
+HOW TO SHOW CURRENT VALUE OF THE SELECTED ROLLABLE?
+Remove setTimeout
 
-![Latest Release Download Count](https://img.shields.io/github/downloads/theripper93/Levels/latest/module.zip?color=2b82fc&label=DOWNLOADS&style=for-the-badge) [![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Flevels&colorB=03ff1c&style=for-the-badge)](https://forge-vtt.com/bazaar#package=levels) ![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Ftheripper93%2FLevels%2Fmain%2Fmodule.json&label=Foundry%20Version&query=$.compatibleCoreVersion&colorB=orange&style=for-the-badge) [![alt-text](https://img.shields.io/badge/-Patreon-%23ff424d?style=for-the-badge)](https://www.patreon.com/theripper93) [![alt-text](https://img.shields.io/badge/-Discord-%235662f6?style=for-the-badge)](https://discord.gg/F53gBjR97G)
+## HOW TO USE
+
+Inside Foundry VTT
+
+- Add-on Modules
+- Install Module
+. In the search bar on the bottom paste this
+XXXXXXX
+
+- Activate the module inside your world
+
+- Bottom Left: Click the QC button to open the Quick Contest window
+
+![alt text](/screenshots/image1.png)
+
+
+- Now you can drag and drop rollable attributes from Actor Sheets (in this example Stealth vs Vision)
+
+![alt text](image.png)
+
+- Then click Contest!
+
+You will see in the chat window
+
+![alt text](image-1.png)
