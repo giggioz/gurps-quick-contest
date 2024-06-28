@@ -49,6 +49,7 @@ class QuickContestApp extends Application {
       const slotIndex = event.currentTarget.id === 'actor1' ? 0 : 1;
 
       const action = this.getAction(data.otf);
+      let VALUE;
 
       // console.log('action', action)
       if (action.type === 'modifier') {
@@ -61,9 +62,35 @@ class QuickContestApp extends Application {
       const otf = data.otf;
       this.actors[slotIndex] = { actor, otf };
 
+      console.log(action);
       // console.log('ACTOR', actor, otf)
+      if (action.type === 'skill-spell') {
+        let skill = GURPS.findSkillSpell(actor, action.name);
+        VALUE = skill.level;
+      }
 
-      updateActorContainer(event.currentTarget.id, actor.name, otf, '', actor.img);
+      if (action.type === 'attack') {
+        let attack = GURPS.findAttack(actor, action.name, action.isMelee, action.isRanged);
+        VALUE = attack.level;
+      }
+
+      if (action.type === 'attribute') {
+        const path = action.path;
+        // console.log('path', path);
+        // const path = 'c.d';
+        const keys = path.split('.'); // Split the path into an array of keys
+
+        VALUE = actor.system;
+        for (const key of keys) {
+          // console.log('key', key);
+          VALUE = VALUE[key]; // Access each key in the path
+          // console.log('VALUE after', VALUE);
+        }
+
+        // VALUE = actor.system.attributes[action.name].value;
+      }
+      // console.log('VALUEEEE', VALUE);
+      updateActorContainer(event.currentTarget.id, actor.name, otf, VALUE, actor.img);
 
       // is this using handlebars? Test it
       // this.render();
@@ -186,6 +213,7 @@ function updateActorContainer(id, name, attrName, attrValue, imgSrc) {
   const versusContainer = document.getElementById('versus');
   const actorContainer = document.getElementById(id);
 
+  console.log('attrValue', attrValue);
   if (actorContainer) {
     const actorName = actorContainer.querySelector('.actor-name');
     const attributeName = actorContainer.querySelector('.attribute-name');
