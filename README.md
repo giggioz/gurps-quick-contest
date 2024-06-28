@@ -20,7 +20,7 @@ Inside Foundry VTT
 - Add-on Modules
 - Install Module
 . In the search bar on the bottom paste this
-https://github.com/giggioz/gurps-quick-contest/releases/download/v1.0.6/module.json
+https://github.com/giggioz/gurps-quick-contest/releases/download/v1.0.7/module.json
 
 - Activate the module inside your world
 
