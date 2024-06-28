@@ -7,10 +7,12 @@ class QuickContestApp extends Application {
   constructor(options = {}) {
     super(options);
     this.actors = [null, null];
+    this.modifiers = [null, null];
   }
 
   async close(options = {}) {
     this.actors = [null, null];
+    this.modifiers = [null, null];
     return super.close(options);
   }
 
@@ -32,16 +34,32 @@ class QuickContestApp extends Application {
     html.find('#compare-button').click(this.compareAttributes.bind(this));
   }
 
+  // Returns GURPS types (modifier, attack, skill-spell)
+  getAction(otf) {
+    const parsed = GURPS.parselink(otf);
+    const action = parsed.action;
+    return action;
+  }
+
   handleDragDrop(html) {
     const handleDrop = (event) => {
       event.preventDefault();
       const data = JSON.parse(event.dataTransfer.getData('text/plain'));
-      const actorId = data.actor;
 
+      const slotIndex = event.currentTarget.id === 'actor1' ? 0 : 1;
+
+      const action = this.getAction(data.otf);
+
+      // console.log('action', action)
+      if (action.type === 'modifier') {
+        this.modifiers[slotIndex] = action.mod;
+        updateModifierContainer(event.currentTarget.id, action.orig);
+        return;
+      }
+      const actorId = data.actor;
       const actor = game.actors.get(actorId);
       const otf = data.otf;
-      const actorIndex = event.currentTarget.id === 'actor1' ? 0 : 1;
-      this.actors[actorIndex] = { actor, otf };
+      this.actors[slotIndex] = { actor, otf };
 
       // console.log('ACTOR', actor, otf)
 
@@ -71,27 +89,34 @@ class QuickContestApp extends Application {
       return;
     }
 
+    console.log(this.modifiers);
+
     const action0 = GURPS.parselink(this.actors[0].otf);
     await GURPS.performAction(action0.action, this.actors[0].actor);
     const res0 = GURPS.lastTargetedRolls[this.actors[0].actor.id];
     const margin0 = res0.margin;
+    const modifier0 = this.modifiers[0] || 0;
+    const tot0 = margin0 + parseInt(modifier0);
 
     const action1 = GURPS.parselink(this.actors[1].otf);
     await GURPS.performAction(action1.action, this.actors[1].actor);
     const res1 = GURPS.lastTargetedRolls[this.actors[1].actor.id];
     const margin1 = res1.margin;
+    const modifier1 = this.modifiers[1] || 0;
+    const tot1 = margin1 + parseInt(modifier1);
 
+    // console.log(tot0, tot1);
     let result;
 
-    if (margin0 > margin1) {
-      result = `${this.actors[0].actor.name} wins with a margin of ${margin0 - margin1}.`;
+    if (tot0 > tot1) {
+      result = `${this.actors[0].actor.name} wins with a margin of ${tot0 - tot1}.`;
 
       ChatMessage.create({
         content: result,
         speaker: { alias: 'GURPS' },
       });
-    } else if (margin1 > margin0) {
-      result = `${this.actors[1].actor.name} wins with a margin of ${margin1 - margin0}.`;
+    } else if (tot1 > tot0) {
+      result = `${this.actors[1].actor.name} wins with a margin of ${tot1 - tot0}.`;
       ChatMessage.create({
         content: result,
         speaker: { alias: 'GURPS' },
@@ -146,6 +171,17 @@ const addToggleButton = () => {
   $('#players').before($toggleButton);
 };
 
+function updateModifierContainer(id, mod) {
+  const actorContainer = document.getElementById(id);
+
+  if (actorContainer) {
+    const modifier = actorContainer.querySelector('.attribute-modifier');
+
+    if (modifier) modifier.textContent = mod;
+  } else {
+    console.log(`Element with ID ${id} not found.`);
+  }
+}
 function updateActorContainer(id, name, attrName, attrValue, imgSrc) {
   const versusContainer = document.getElementById('versus');
   const actorContainer = document.getElementById(id);

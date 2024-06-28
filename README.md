@@ -1,3 +1,10 @@
+## DEV
+
+Run webpack in watch mode
+npx webpack --config webpack.config.js --watch
+
+Use symbolic link to local development
+
 ## TODO
 
 Modifiers dont work
@@ -25,6 +32,10 @@ https://github.com/giggioz/gurps-quick-contest/releases/download/v1.0.6/module.j
 - Now you can drag and drop rollable attributes from Actor Sheets (in this example Will vs Kick)
 
 ![alt text](image.png)
+
+- You can also drag and drop a modifier (only one!) from the modifier bucket
+
+![alt text](image-2.png)
 
 - Then click Contest!
 
