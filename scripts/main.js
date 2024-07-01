@@ -116,6 +116,9 @@ class QuickContestApp extends Application {
       return;
     }
 
+    // Reset Bucket Modifier
+    GURPS.ModifierBucket.clear(true)
+
     console.log(this.modifiers);
 
     const action0 = GURPS.parselink(this.actors[0].otf);
